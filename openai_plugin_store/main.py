@@ -12,7 +12,7 @@ async def root():
     return {"message": "Hello World"}
 
 
-@app.get("/plugins", summary="List of plugin manifest")
+@app.get("/plugins", summary="Get a list of plugin manifests")
 async def plugins():
     fields = ["manifest", "categories"]
     filename = environ["PLUGIN_FILE"]
