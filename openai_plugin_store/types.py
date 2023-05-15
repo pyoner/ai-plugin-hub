@@ -55,7 +55,7 @@ ManifestAuth = Union[
 class Api(BaseModel):
     type: str = Field("openapi", const=True)
     url: str
-    is_user_authenticated: bool
+    is_user_authenticated: Optional[bool]
 
 
 class Manifest(BaseModel):
@@ -77,8 +77,8 @@ class Manifest(BaseModel):
 
 
 class Categories(BaseModel):
-    id: str
-    title: str
+    id: Optional[str]
+    title: Optional[str]
 
 
 class Plugin(BaseModel):
