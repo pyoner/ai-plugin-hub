@@ -15,5 +15,7 @@ async def root():
 @app.get("/plugins", summary="List of plugin manifest")
 async def plugins():
     fields = ["manifest", "categories"]
-    plugins = json.loads(environ["PLUGIN_FILE"])
-    return [dict([(k, item[k]) for k in fields]) for item in plugins["items"]]
+    filename = environ["PLUGIN_FILE"]
+    with open(filename) as f:
+        plugins = json.loads(f.read())
+        return [dict([(k, item[k]) for k in fields]) for item in plugins["items"]]
