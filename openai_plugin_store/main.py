@@ -3,6 +3,8 @@ from os import environ
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
+from .types import Plugin
+
 load_dotenv()
 app = FastAPI()
 
@@ -13,9 +15,12 @@ async def root():
 
 
 @app.get("/plugins", summary="Get a list of plugin manifests")
-async def plugins():
-    fields = ["manifest", "categories"]
-    filename = environ["PLUGIN_FILE"]
+async def plugins() -> list[Plugin]:
+    filename: str = environ["PLUGIN_FILE"]
     with open(filename) as f:
         plugins = json.loads(f.read())
-        return [dict([(k, item[k]) for k in fields]) for item in plugins["items"]]
+
+        return [
+            Plugin(manifest=item["manifest"], categories=item["categories"])
+            for item in plugins["items"]
+        ]
