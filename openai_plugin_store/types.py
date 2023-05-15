@@ -74,3 +74,13 @@ class Manifest(BaseModel):
     logo_url: str
     contact_email: str
     legal_info_url: str
+
+
+class Categories(BaseModel):
+    id: str
+    title: str
+
+
+class Plugin(BaseModel):
+    manifest: Manifest
+    categories: Categories
