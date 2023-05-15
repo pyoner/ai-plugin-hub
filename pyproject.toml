@@ -10,6 +10,7 @@ packages = [{ include = "openai_plugin_store", from = "src" }]
 python = "^3.11"
 fastapi = {version = "^0.95.1", extras = ["all"]}
 requests = "^2.30.0"
+python-dotenv = "^1.0.0"
 
 
 [build-system]
