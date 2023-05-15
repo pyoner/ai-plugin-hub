@@ -9,11 +9,6 @@ load_dotenv()
 app = FastAPI()
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
 @app.get("/plugins", summary="Get a list of plugin manifests")
 async def plugins() -> list[Plugin]:
     filename: str = environ["PLUGIN_FILE"]
