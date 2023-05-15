@@ -8,6 +8,7 @@ packages = [{ include = "openai_plugin_store", from = "src" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
+fastapi = {version = "^0.95.1", extras = ["all"]}
 
 
 [build-system]
