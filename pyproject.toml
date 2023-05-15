@@ -4,14 +4,15 @@ version = "0.1.0"
 description = ""
 authors = ["Askar Yusupov <devex.soft@gmail.com>"]
 readme = "README.md"
-packages = [{ include = "openai_plugin_store", from = "src" }]
+packages = [{ include = "openai_plugin_store" }]
+
 
 [tool.poetry.dependencies]
 python = "^3.11"
 fastapi = "^0.95.1"
 requests = "^2.30.0"
 python-dotenv = "^1.0.0"
-uvicorn = {extras = ["standard"], version = "^0.22.0"}
+uvicorn = { extras = ["standard"], version = "^0.22.0" }
 
 
 [build-system]
