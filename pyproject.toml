@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "openai-plugin-store"
+name = "ai-plugin-hub"
 version = "0.1.0"
 description = ""
 authors = ["Askar Yusupov <devex.soft@gmail.com>"]
 readme = "README.md"
-packages = [{ include = "openai_plugin_store" }]
+packages = [{ include = "src" }]
 
 
 [tool.poetry.dependencies]
