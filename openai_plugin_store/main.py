@@ -43,3 +43,8 @@ async def plugins() -> list[Plugin]:
             Plugin(manifest=item["manifest"], categories=item["categories"])
             for item in plugins["items"]
         ]
+
+
+@app.get("/search", summary="Search plugins in the store")
+async def search(query: str) -> list[Plugin]:
+    raise NotImplementedError
