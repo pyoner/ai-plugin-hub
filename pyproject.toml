@@ -13,6 +13,7 @@ fastapi = "^0.95.1"
 requests = "^2.30.0"
 python-dotenv = "^1.0.0"
 uvicorn = { extras = ["standard"], version = "^0.22.0" }
+lancedb = "^0.1.2"
 
 
 [build-system]
