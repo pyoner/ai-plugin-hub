@@ -4,11 +4,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from pydantic import parse_file_as
-
 from .helpers import load_plugins, to_about
-
-from .types import AboutPlugin, Manifest
+from .types import AboutPlugin
 
 
 load_dotenv()
@@ -27,12 +24,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
-
-@app.get("/.well-known/ai-plugin.json", summary="Get a plugin manifest")
-async def manifest():
-    return parse_file_as(Manifest, "./ai-plugin.json")
+app.mount("/", StaticFiles(directory="static"), name="static")
 
 
 @app.get("/plugins", summary="Get a list of plugins")
