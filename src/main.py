@@ -1,13 +1,13 @@
-import json
-from os import environ
 from dotenv import load_dotenv
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from pydantic import parse_raw_as
+from pydantic import parse_file_as
 
-from .types import Manifest, Plugin
+from .helpers import load_plugins, to_about
+
+from .types import AboutPlugin, Manifest
 
 
 load_dotenv()
@@ -29,22 +29,21 @@ app.add_middleware(
 
 @app.get("/.well-known/ai-plugin.json", summary="Get a plugin manifest")
 async def manifest():
-    with open("./ai-plugin.json") as f:
-        return parse_raw_as(Manifest, f.read())
+    return parse_file_as(Manifest, "./ai-plugin.json")
 
 
-@app.get("/plugins", summary="Get a list of plugin manifests")
-async def plugins() -> list[Plugin]:
-    filename: str = environ["PLUGIN_FILE"]
-    with open(filename) as f:
-        plugins = json.loads(f.read())
-
-        return [
-            Plugin(manifest=item["manifest"], categories=item["categories"])
-            for item in plugins["items"]
-        ]
+@app.get("/plugins", summary="Get a list of plugins")
+async def plugins() -> list[AboutPlugin]:
+    plugins = load_plugins()
+    return [to_about(i, p) for (i, p) in enumerate(plugins)]
 
 
-@app.get("/search", summary="Search plugins in the store")
-async def search(query: str) -> list[Plugin]:
-    raise NotImplementedError
+@app.get("/plugin", summary="Get a plugin manifest")
+async def plugin(index: int):
+    plugins = load_plugins()
+    return plugins[index]
+
+
+# @app.get("/search", summary="Search plugins in the store")
+# async def search(query: str) -> list[Plugin]:
+#     raise NotImplementedError

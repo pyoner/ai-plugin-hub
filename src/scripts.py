@@ -11,7 +11,7 @@ load_dotenv()
 
 def prepare():
     plugins = load_plugins()
-    df = pd.DataFrame(plugins)
+    df = pd.DataFrame(data=plugins)
     with_embeddings(embed_func, df)  # TODO add column
 
     db = db_connect()

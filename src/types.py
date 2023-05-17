@@ -84,3 +84,9 @@ class Categories(BaseModel):
 class Plugin(BaseModel):
     manifest: Manifest
     categories: Categories
+
+
+class AboutPlugin(BaseModel):
+    id: int
+    name: str
+    description: str
