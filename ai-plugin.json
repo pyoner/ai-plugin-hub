@@ -1,9 +1,9 @@
 {
   "schema_version": "v1",
-  "name_for_human": "Plugin Store",
-  "name_for_model": "pluginstore",
-  "description_for_human": "A store for exploring, installing a variety of plugins.",
-  "description_for_model": "A store for exploring, installing a variety of plugins.",
+  "name_for_human": "Plugin Hub AI",
+  "name_for_model": "PluginHunAI",
+  "description_for_human": "A hun for exploring, installing a variety of plugins.",
+  "description_for_model": "A hub for exploring, installing a variety of plugins.",
   "auth": {
     "type": "none"
   },
