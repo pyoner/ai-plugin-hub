@@ -12,7 +12,7 @@
     "url": "http://localhost:8000/openapi.json",
     "is_user_authenticated": false
   },
-  "logo_url": "https://localhost:8000/static/logo.png",
+  "logo_url": "https://localhost:8000/logo.png",
   "contact_email": "support@yourdomain.com",
-  "legal_info_url": "https://localhost:8000/legal"
+  "legal_info_url": "https://localhost:8000/legal.html"
 }
