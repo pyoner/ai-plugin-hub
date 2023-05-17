@@ -12,9 +12,9 @@ load_dotenv()
 def prepare():
     plugins = load_plugins()
     df = pd.DataFrame(plugins)
-    with_embeddings(embed_func, df)
+    with_embeddings(embed_func, df)  # TODO add column
 
     db = db_connect()
 
     # The output is used to create / append to a table
-    db.create_table("my_table", data=df)
+    return db.create_table("plugins", data=df)
