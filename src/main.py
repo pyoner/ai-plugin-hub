@@ -24,20 +24,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/", StaticFiles(directory="static"), name="static")
 
-
-@app.get("/plugins", summary="Get a list of plugins")
+@app.get("/api/plugins", summary="Get a list of plugins")
 async def plugins() -> list[AboutPlugin]:
     plugins = load_plugins()
     return [to_about(i, p) for (i, p) in enumerate(plugins)]
 
 
-@app.get("/plugin", summary="Get a plugin manifest")
+@app.get("/api/plugin", summary="Get a plugin manifest")
 async def plugin(index: int):
     plugins = load_plugins()
     return plugins[index]
 
+
+app.mount("/", StaticFiles(directory="static"), name="static")
 
 # @app.get("/search", summary="Search plugins in the store")
 # async def search(query: str) -> list[Plugin]:
