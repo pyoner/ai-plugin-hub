@@ -9,10 +9,10 @@
   },
   "api": {
     "type": "openapi",
-    "url": "http://localhost:8000/openapi.json",
+    "url": "https://pluginhub.ai/openapi.json",
     "is_user_authenticated": false
   },
-  "logo_url": "https://localhost:8000/logo.png",
-  "contact_email": "support@yourdomain.com",
-  "legal_info_url": "https://localhost:8000/legal.html"
+  "logo_url": "https://pluginhub.ai/logo.png",
+  "contact_email": "devex.soft@gmail.com",
+  "legal_info_url": "https://pluginhub.ai/legal.html"
 }
