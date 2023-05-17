@@ -8,11 +8,12 @@ from .types import AboutPlugin, Plugin
 
 # used for both training and querying
 def embed_func(batch):
-    from sentence_transformers import SentenceTransformer
+    # from sentence_transformers import SentenceTransformer
 
-    name = "paraphrase-albert-small-v2"
-    model = SentenceTransformer(name)
-    return [model.encode(sentence) for sentence in batch]
+    # name = "paraphrase-albert-small-v2"
+    # model = SentenceTransformer(name)
+    # return [model.encode(sentence) for sentence in batch]
+    raise NotImplementedError
 
 
 def create_manifest_url(domain: str):
