@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from .helpers import load_plugins, to_about
-from .types import AboutPlugin
+from .types import AboutPlugin, Manifest
 
 
 load_dotenv()
@@ -31,14 +31,15 @@ async def plugins() -> list[AboutPlugin]:
     return [to_about(i, p) for (i, p) in enumerate(plugins)]
 
 
-@app.get("/api/plugin", summary="Get a plugin manifest")
-async def plugin(index: int):
+@app.get("/api/manifest", summary="Get a plugin manifest")
+async def plugin(index: int) -> Manifest:
     plugins = load_plugins()
-    return plugins[index]
+    return plugins[index].manifest
 
-
-app.mount("/", StaticFiles(directory="static"), name="static")
 
 # @app.get("/search", summary="Search plugins in the store")
 # async def search(query: str) -> list[Plugin]:
 #     raise NotImplementedError
+
+# mount root at the end of code
+app.mount("/", StaticFiles(directory="static"), name="static")
