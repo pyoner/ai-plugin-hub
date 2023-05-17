@@ -2,8 +2,8 @@
   "schema_version": "v1",
   "name_for_human": "Plugin Hub AI",
   "name_for_model": "PluginHunAI",
-  "description_for_human": "A hub for exploring, installing a variety of plugins.",
-  "description_for_model": "A hub for exploring, installing a variety of plugins.",
+  "description_for_human": "A hub for exploring, installing a variety of ChatGPT AI plugins.",
+  "description_for_model": "A hub for exploring, installing a variety of ChatGPT AI plugins.",
   "auth": {
     "type": "none"
   },
