@@ -1,18 +1,11 @@
-from typing import Dict
+from typing import Dict, Literal
 from pydantic import BaseModel, Field
-from enum import Enum
 
 
-class HttpAuthorizationType(str, Enum):
-    BEARER = "bearer"
-    BASIC = "basic"
+HttpAuthorizationType = Literal["bearer", "basic"]
 
 
-class ManifestAuthType(str, Enum):
-    NONE = "none"
-    SERVICE_HTTP = "service_http"
-    USER_HTTP = "user_http"
-    OAUTH = "oauth"
+ManifestAuthType = Literal["none", "service_http", "user_http", "oauth"]
 
 
 class BaseManifestAuth(BaseModel):
