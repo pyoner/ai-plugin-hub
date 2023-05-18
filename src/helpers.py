@@ -4,7 +4,7 @@ import lancedb
 from typing import Optional
 from sentence_transformers import SentenceTransformer
 
-from .types import AboutPlugin, Plugin
+from .types import AboutPlugin, Manifest, Plugin
 
 
 model_name = "paraphrase-albert-small-v2"
@@ -23,6 +23,10 @@ def create_manifest_url(domain: str):
 def load_plugins(filename: Optional[str] = None) -> list[Plugin]:
     filename = filename or os.environ["PLUGIN_FILE"]
     return pydantic.parse_file_as(list[Plugin], filename)
+
+
+def load_manifests(filename: Optional[str] = None) -> list[Manifest]:
+    return [p.manifest for p in load_plugins(filename)]
 
 
 def db_connect(uri: Optional[str] = None) -> lancedb.LanceDBConnection:

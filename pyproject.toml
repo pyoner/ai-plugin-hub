@@ -6,6 +6,8 @@ authors = ["Askar Yusupov <devex.soft@gmail.com>"]
 readme = "README.md"
 packages = [{ include = "src" }]
 
+[tool.poetry.scripts]
+prepare = "src.scripts:prepare"
 
 [tool.poetry.dependencies]
 python = "^3.11"
