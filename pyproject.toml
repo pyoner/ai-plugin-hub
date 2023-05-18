@@ -8,6 +8,7 @@ packages = [{ include = "src" }]
 
 [tool.poetry.scripts]
 prepare = "src.scripts:prepare"
+search = "src.scripts:search"
 
 [tool.poetry.dependencies]
 python = "^3.11"

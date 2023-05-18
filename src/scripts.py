@@ -23,3 +23,13 @@ def prepare():
 
     # The output is used to create / append to a table
     return db.create_table("plugins", data=df)
+
+
+def search():
+    db = db_connect()
+    t = db.open_table("plugins")
+
+    query = "Find plugins to work with documents, pdf, sheets"
+    query_vec = embed_func([query])[0]
+    df = t.search(query_vec).limit(10).to_df()
+    print(df)
