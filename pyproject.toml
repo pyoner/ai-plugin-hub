@@ -17,6 +17,7 @@ lancedb = "^0.1.2"
 pandas = "^2.0.1"
 torch = { url = "https://download.pytorch.org/whl/cpu-cxx11-abi/torch-2.0.1%2Bcpu.cxx11.abi-cp311-cp311-linux_x86_64.whl" }
 jinja2 = "^3.1.2"
+sentence-transformers = "^2.2.2"
 
 
 [build-system]
