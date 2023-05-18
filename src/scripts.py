@@ -11,8 +11,13 @@ load_dotenv()
 
 def prepare():
     manifests = load_manifests()
-    df = pd.DataFrame(data=manifests)
-    with_embeddings(embed_func, df, column="description_for_human")
+    df = pd.DataFrame(data=[m.dict() for m in manifests])
+    df = with_embeddings(
+        embed_func,
+        df[["name_for_human", "description_for_human"]],
+        column="description_for_human",
+        show_progress=True,
+    )
 
     db = db_connect()
 
