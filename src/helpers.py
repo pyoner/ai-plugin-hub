@@ -2,18 +2,18 @@ import os
 import pydantic
 import lancedb
 from typing import Optional
+from sentence_transformers import SentenceTransformer
 
 from .types import AboutPlugin, Plugin
 
 
+model_name = "paraphrase-albert-small-v2"
+model = SentenceTransformer(model_name)
+
+
 # used for both training and querying
 def embed_func(batch):
-    # from sentence_transformers import SentenceTransformer
-
-    # name = "paraphrase-albert-small-v2"
-    # model = SentenceTransformer(name)
-    # return [model.encode(sentence) for sentence in batch]
-    raise NotImplementedError
+    return [model.encode(sentence) for sentence in batch]
 
 
 def create_manifest_url(domain: str):
