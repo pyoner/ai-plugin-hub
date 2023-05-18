@@ -20,7 +20,7 @@ def prepare():
     df = pd.DataFrame(data=[m.dict() for m in manifests])
     df = with_embeddings(
         embed_func,
-        df[["name_for_human", "description_for_human"]],
+        df,
         column="description_for_human",
         show_progress=True,
     )
