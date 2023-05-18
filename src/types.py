@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Union
+from typing import Dict
 from pydantic import BaseModel, Field
 from enum import Enum
 
@@ -17,7 +17,7 @@ class ManifestAuthType(str, Enum):
 
 class BaseManifestAuth(BaseModel):
     type: ManifestAuthType
-    instructions: Optional[str] = None
+    instructions: str | None
 
 
 class ManifestNoAuth(BaseManifestAuth):
@@ -27,7 +27,7 @@ class ManifestNoAuth(BaseManifestAuth):
 class ManifestServiceHttpAuth(BaseManifestAuth):
     type: ManifestAuthType = Field("service_http", const=True)
     authorization_type: HttpAuthorizationType
-    verification_tokens: Dict[str, Optional[str]]
+    verification_tokens: Dict[str, str | None]
 
 
 class ManifestUserHttpAuth(BaseManifestAuth):
@@ -41,21 +41,18 @@ class ManifestOAuthAuth(BaseManifestAuth):
     scope: str
     authorization_url: str
     authorization_content_type: str
-    verification_tokens: Dict[str, Optional[str]]
+    verification_tokens: Dict[str, str | None]
 
 
-ManifestAuth = Union[
-    ManifestNoAuth,
-    ManifestServiceHttpAuth,
-    ManifestUserHttpAuth,
-    ManifestOAuthAuth,
-]
+ManifestAuth = (
+    ManifestNoAuth | ManifestServiceHttpAuth | ManifestUserHttpAuth | ManifestOAuthAuth
+)
 
 
 class Api(BaseModel):
     type: str = Field("openapi", const=True)
     url: str
-    is_user_authenticated: Optional[bool]
+    is_user_authenticated: bool | None
 
 
 class Manifest(BaseModel):
@@ -64,12 +61,7 @@ class Manifest(BaseModel):
     name_for_model: str
     description_for_human: str
     description_for_model: str
-    auth: Union[
-        ManifestNoAuth,
-        ManifestServiceHttpAuth,
-        ManifestUserHttpAuth,
-        ManifestOAuthAuth,
-    ]
+    auth: ManifestAuth
     api: Api
     logo_url: str
     contact_email: str
@@ -77,8 +69,8 @@ class Manifest(BaseModel):
 
 
 class Categories(BaseModel):
-    id: Optional[str]
-    title: Optional[str]
+    id: str | None
+    title: str | None
 
 
 class Plugin(BaseModel):
