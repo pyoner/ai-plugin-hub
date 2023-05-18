@@ -6,6 +6,7 @@ from sentence_transformers import SentenceTransformer
 
 from .types import AboutPlugin, Manifest, Plugin
 
+PLUGINS_TABLE_NAME = "plugins"
 
 model_name = "paraphrase-albert-small-v2"
 model = SentenceTransformer(model_name)
@@ -40,3 +41,11 @@ def to_about(id: int, p: Plugin) -> AboutPlugin:
         name=p.manifest.name_for_human,
         description=p.manifest.description_for_human,
     )
+
+
+def search(query: str):
+    db = db_connect()
+    t = db.open_table(PLUGINS_TABLE_NAME)
+
+    query_vec = embed_func([query])[0]
+    return t.search(query_vec)

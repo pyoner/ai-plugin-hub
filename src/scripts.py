@@ -6,11 +6,9 @@ from lancedb.embeddings import with_embeddings
 from dotenv import load_dotenv
 
 
-from .helpers import db_connect, embed_func, load_manifests
+from .helpers import db_connect, embed_func, load_manifests, search, PLUGINS_TABLE_NAME
 
 load_dotenv()
-
-PLUGINS_TABLE_NAME = "plugins"
 
 
 def prepare():
@@ -31,11 +29,7 @@ def prepare():
     return db.create_table(PLUGINS_TABLE_NAME, data=df)
 
 
-def search():
-    db = db_connect()
-    t = db.open_table(PLUGINS_TABLE_NAME)
-
+def find():
     query = "Find plugins to work with documents, pdf, sheets"
-    query_vec = embed_func([query])[0]
-    df = t.search(query_vec).limit(10).to_df()
+    df = search(query).limit(10).to_df()
     print(df)
