@@ -40,7 +40,7 @@ async def api_plugin(id: str) -> Plugin:
 
 
 @app.get("/api/search", summary="Search plugins in the hub")
-async def api_search(query: str):
+async def api_search(query: str) -> list[Plugin]:
     df = search(query).limit(10).to_df()
     ids: list[str] = df["id"].to_list()
 
