@@ -1,4 +1,6 @@
 import os
+import hashlib
+import base64
 import pydantic
 import lancedb
 from typing import Optional
@@ -49,3 +51,8 @@ def search(query: str):
 
     query_vec = embed_func([query])[0]
     return t.search(query_vec)
+
+
+def generate_unique_id(s: str, digest_size=64):
+    sig = hashlib.blake2b(s.encode(), digest_size=digest_size).digest()
+    return base64.urlsafe_b64encode(sig).decode("ascii").rstrip("=")
