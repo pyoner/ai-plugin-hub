@@ -35,9 +35,9 @@ def db_connect(uri: Optional[str] = None) -> lancedb.LanceDBConnection:
     return lancedb.connect(uri)
 
 
-def to_about(id: int, p: Plugin) -> AboutPlugin:
+def to_about(p: Plugin) -> AboutPlugin:
     return AboutPlugin(
-        id=id,
+        id=p.id,
         name=p.manifest.name_for_human,
         description=p.manifest.description_for_human,
     )

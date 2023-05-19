@@ -81,6 +81,6 @@ class Plugin(BaseModel):
 
 
 class AboutPlugin(BaseModel):
-    id: int
+    id: str
     name: str
     description: str

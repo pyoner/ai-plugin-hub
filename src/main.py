@@ -1,12 +1,12 @@
 from dotenv import load_dotenv
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import parse_obj_as
 
 from .helpers import load_plugins, to_about, search
-from .types import AboutPlugin, Manifest
+from .types import AboutPlugin, Manifest, Plugin
 
 
 load_dotenv()
@@ -29,13 +29,15 @@ app.add_middleware(
 @app.get("/api/plugins", summary="Get a list of plugins")
 async def api_plugins() -> list[AboutPlugin]:
     plugins = load_plugins()
-    return [to_about(i, p) for (i, p) in enumerate(plugins)]
+    return [to_about(p) for p in plugins]
 
 
-@app.get("/api/manifest", summary="Get a plugin manifest")
-async def api_manifest(index: int) -> Manifest:
-    plugins = load_plugins()
-    return plugins[index].manifest
+@app.get("/api/plugin", summary="Get a plugin")
+async def api_plugin(id: str) -> Plugin:
+    for p in load_plugins():
+        if p.id == id:
+            return p
+    raise HTTPException(404, detail="Plugin not found")
 
 
 @app.get("/api/search", summary="Search plugins in the hub")
