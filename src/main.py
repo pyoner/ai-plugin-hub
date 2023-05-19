@@ -40,16 +40,19 @@ async def api_plugin(id: str) -> Plugin:
 
 
 @app.get("/api/search", summary="Search plugins in the hub")
-async def api_search(query: str) -> list[Plugin]:
+async def api_search(query: str) -> list[AboutPlugin]:
     df = search(query).limit(10).to_df()
-    ids: list[str] = df["id"].to_list()
-
-    plugins = []
-    for p in load_plugins():
-        if p.id in ids:
-            plugins.append(p)
-
-    return plugins
+    items = []
+    for _, row in df.iterrows():
+        m = row["manifest"]
+        items.append(
+            AboutPlugin(
+                id=row["id"],
+                name=m["name_for_human"],
+                description=m["description_for_human"],
+            )
+        )
+    return items
 
 
 # mount root at the end of code
