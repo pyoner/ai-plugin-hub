@@ -3,10 +3,9 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from pydantic import parse_obj_as
 
 from .helpers import load_plugins, to_about, search
-from .types import AboutPlugin, Manifest, Plugin
+from .types import AboutPlugin, Plugin
 
 
 load_dotenv()
@@ -43,9 +42,14 @@ async def api_plugin(id: str) -> Plugin:
 @app.get("/api/search", summary="Search plugins in the hub")
 async def api_search(query: str):
     df = search(query).limit(10).to_df()
-    d = df.to_dict(orient="records")
-    # return d
-    return parse_obj_as(list[Manifest], d)
+    ids: list[str] = df["id"].to_list()
+
+    plugins = []
+    for p in load_plugins():
+        if p.id in ids:
+            plugins.append(p)
+
+    return plugins
 
 
 # mount root at the end of code
