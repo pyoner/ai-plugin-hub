@@ -2,24 +2,27 @@ import os
 import shutil
 import pandas as pd
 
+from pathlib import Path
 from lancedb.embeddings import with_embeddings
 from dotenv import load_dotenv
 
 
-from .helpers import db_connect, embed_func, load_manifests, search, PLUGINS_TABLE_NAME
+from .helpers import db_connect, embed_func, load_plugins, search, PLUGINS_TABLE_NAME
 
 load_dotenv()
 
 
 def prepare():
-    shutil.rmtree(os.environ["LANCE_DB"])
+    db_path = Path(os.environ["LANCE_DB"])
+    if db_path.exists():
+        shutil.rmtree(db_path)
 
-    manifests = load_manifests()
-    df = pd.DataFrame(data=[m.dict() for m in manifests])
+    plugins = load_plugins()
+    df = pd.DataFrame(data=[dict(text=p.text, **p.dict()) for p in plugins])
     df = with_embeddings(
         embed_func,
         df,
-        column="description_for_human",
+        column="text",
         show_progress=True,
     )
 

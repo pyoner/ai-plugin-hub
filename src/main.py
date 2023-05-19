@@ -3,8 +3,9 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from pydantic import parse_obj_as
 
-from .helpers import load_plugins, to_about
+from .helpers import load_plugins, to_about, search
 from .types import AboutPlugin, Manifest
 
 
@@ -26,20 +27,24 @@ app.add_middleware(
 
 
 @app.get("/api/plugins", summary="Get a list of plugins")
-async def plugins() -> list[AboutPlugin]:
+async def api_plugins() -> list[AboutPlugin]:
     plugins = load_plugins()
     return [to_about(i, p) for (i, p) in enumerate(plugins)]
 
 
 @app.get("/api/manifest", summary="Get a plugin manifest")
-async def plugin(index: int) -> Manifest:
+async def api_manifest(index: int) -> Manifest:
     plugins = load_plugins()
     return plugins[index].manifest
 
 
-# @app.get("/search", summary="Search plugins in the store")
-# async def search(query: str) -> list[Plugin]:
-#     raise NotImplementedError
+@app.get("/api/search", summary="Search plugins in the hub")
+async def api_search(query: str):
+    df = search(query).limit(10).to_df()
+    d = df.to_dict(orient="records")
+    # return d
+    return parse_obj_as(list[Manifest], d)
+
 
 # mount root at the end of code
 app.mount("/", StaticFiles(directory="static"), name="static")

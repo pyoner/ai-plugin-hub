@@ -67,8 +67,17 @@ class Categories(BaseModel):
 
 
 class Plugin(BaseModel):
+    id: str
+    domain: str
     manifest: Manifest
     categories: Categories
+
+    @property
+    def text(self) -> str:
+        return "{name} {description}".format(
+            name=self.manifest.name_for_human,
+            description=self.manifest.description_for_human,
+        )
 
 
 class AboutPlugin(BaseModel):
