@@ -1,11 +1,12 @@
+from urllib.parse import urljoin
 from dotenv import load_dotenv
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from .helpers import load_plugins, to_about, search
-from .types import AboutPlugin, Plugin
+from .types import AboutPlugin, Api, Manifest, ManifestNoAuth, Plugin
 
 
 load_dotenv()
@@ -31,7 +32,7 @@ async def api_plugins() -> list[AboutPlugin]:
     return [to_about(p) for p in plugins]
 
 
-@app.get("/api/plugin", summary="Get a plugin")
+@app.get("/api/plugin/{id}", summary="Get a plugin")
 async def api_plugin(id: str) -> Plugin:
     for p in load_plugins():
         if p.id == id:
@@ -53,6 +54,27 @@ async def api_search(query: str) -> list[AboutPlugin]:
             )
         )
     return items
+
+
+@app.get("/.well-known/ai-plugin.json")
+async def ai_plugin(request: Request) -> Manifest:
+    base_url = str(request.base_url)
+    return Manifest(
+        schema_version="v1",
+        name_for_human="Plugin Hub AI",
+        name_for_model="PluginHunAI",
+        description_for_human="A hub for exploring, installing a variety of ChatGPT AI plugins.",
+        description_for_model="A hub for exploring, installing a variety of ChatGPT AI plugins.",
+        auth=ManifestNoAuth(type="none", instructions=None),
+        api=Api(
+            type="openapi",
+            url=urljoin(base_url, "/openapi.json"),
+            is_user_authenticated=False,
+        ),
+        logo_url=urljoin(base_url, "/images/logo.png"),
+        contact_email="devex.soft@gmail.com",
+        legal_info_url=urljoin(base_url, "/legal.html"),
+    )
 
 
 # mount root at the end of code
