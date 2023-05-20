@@ -1,4 +1,4 @@
-from typing import Dict, Literal
+from typing import Dict, Literal, Self
 from pydantic import BaseModel, Field
 
 
@@ -66,7 +66,7 @@ class Categories(BaseModel):
     title: str | None
 
 
-class Plugin(BaseModel):
+class OpenAIPlugin(BaseModel):
     id: str
     domain: str
     manifest: Manifest
@@ -80,7 +80,16 @@ class Plugin(BaseModel):
         )
 
 
-class AboutPlugin(BaseModel):
+class Plugin(BaseModel):
     id: str
     name: str
     description: str
+
+    @classmethod
+    def from_openai_plugin(cls, plugin: OpenAIPlugin) -> Self:
+        m = plugin.manifest
+        return cls(
+            id=plugin.id,
+            name=m.name_for_human,
+            description=m.description_for_human,
+        )

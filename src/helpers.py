@@ -6,7 +6,7 @@ import lancedb
 from typing import Optional
 from sentence_transformers import SentenceTransformer
 
-from .types import AboutPlugin, Manifest, Plugin
+from .types import Manifest, OpenAIPlugin
 
 PLUGINS_TABLE_NAME = "plugins"
 
@@ -23,26 +23,18 @@ def create_manifest_url(domain: str):
     return "https://{domain}/.well-known/ai-plugin.json".format(domain=domain)
 
 
-def load_plugins(filename: Optional[str] = None) -> list[Plugin]:
+def load_openai_plugins(filename: Optional[str] = None) -> list[OpenAIPlugin]:
     filename = filename or os.environ["PLUGIN_FILE"]
-    return pydantic.parse_file_as(list[Plugin], filename)
+    return pydantic.parse_file_as(list[OpenAIPlugin], filename)
 
 
 def load_manifests(filename: Optional[str] = None) -> list[Manifest]:
-    return [p.manifest for p in load_plugins(filename)]
+    return [p.manifest for p in load_openai_plugins(filename)]
 
 
 def db_connect(uri: Optional[str] = None) -> lancedb.LanceDBConnection:
     uri = uri or os.environ["LANCE_DB"]
     return lancedb.connect(uri)
-
-
-def to_about(p: Plugin) -> AboutPlugin:
-    return AboutPlugin(
-        id=p.id,
-        name=p.manifest.name_for_human,
-        description=p.manifest.description_for_human,
-    )
 
 
 def search(query: str):

@@ -7,7 +7,13 @@ from lancedb.embeddings import with_embeddings
 from dotenv import load_dotenv
 
 
-from .helpers import db_connect, embed_func, load_plugins, search, PLUGINS_TABLE_NAME
+from .helpers import (
+    db_connect,
+    embed_func,
+    load_openai_plugins,
+    search,
+    PLUGINS_TABLE_NAME,
+)
 
 load_dotenv()
 
@@ -17,7 +23,7 @@ def prepare():
     if db_path.exists():
         shutil.rmtree(db_path)
 
-    plugins = load_plugins()
+    plugins = load_openai_plugins()
     df = pd.DataFrame(data=[dict(text=p.text, **p.dict()) for p in plugins])
     df = with_embeddings(
         embed_func,

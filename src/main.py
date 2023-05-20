@@ -5,8 +5,8 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from .helpers import load_plugins, to_about, search
-from .types import AboutPlugin, Api, Manifest, ManifestNoAuth, Plugin
+from .helpers import load_openai_plugins, search
+from .types import Plugin, Api, Manifest, ManifestNoAuth, OpenAIPlugin
 
 
 load_dotenv()
@@ -27,27 +27,27 @@ app.add_middleware(
 
 
 @app.get("/api/plugins", summary="Get a list of plugins")
-async def api_plugins() -> list[AboutPlugin]:
-    plugins = load_plugins()
-    return [to_about(p) for p in plugins]
+async def api_plugins() -> list[Plugin]:
+    plugins = load_openai_plugins()
+    return [Plugin.from_openai_plugin(p) for p in plugins]
 
 
 @app.get("/api/plugin/{id}", summary="Get a plugin")
-async def api_plugin(id: str) -> Plugin:
-    for p in load_plugins():
+async def api_plugin(id: str) -> OpenAIPlugin:
+    for p in load_openai_plugins():
         if p.id == id:
             return p
     raise HTTPException(404, detail="Plugin not found")
 
 
 @app.get("/api/search", summary="Search plugins in the hub")
-async def api_search(query: str) -> list[AboutPlugin]:
+async def api_search(query: str) -> list[Plugin]:
     df = search(query).limit(10).to_df()
     items = []
     for _, row in df.iterrows():
         m = row["manifest"]
         items.append(
-            AboutPlugin(
+            Plugin(
                 id=row["id"],
                 name=m["name_for_human"],
                 description=m["description_for_human"],
