@@ -92,9 +92,9 @@ class Plugin(BaseModel):
     url: str
     name: str
     description: str
-    logo_url: str
-    contact_email: str
-    legal_info_url: str
+    logo_url: str | None
+    contact_email: str | None
+    legal_info_url: str | None
 
     @property
     def text(self) -> str:
