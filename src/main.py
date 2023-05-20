@@ -5,11 +5,13 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from .helpers import load_openai_plugins, search
+from .helpers import db_connect, load_openai_plugins, search
 from .types import Plugin, Api, Manifest, ManifestNoAuth
 
 
 load_dotenv()
+
+db = db_connect()
 
 app = FastAPI()
 
