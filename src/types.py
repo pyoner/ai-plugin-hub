@@ -1,6 +1,8 @@
 from typing import Dict, Literal, Self
 from pydantic import BaseModel, Field
 
+from src.helpers import generate_unique_id
+
 
 HttpAuthorizationType = Literal["bearer", "basic"]
 
@@ -82,6 +84,7 @@ class OpenAIPlugin(BaseModel):
 
 class Plugin(BaseModel):
     id: str
+    url: str
     name: str
     description: str
 
@@ -89,7 +92,8 @@ class Plugin(BaseModel):
     def from_openai_plugin(cls, plugin: OpenAIPlugin) -> Self:
         m = plugin.manifest
         return cls(
-            id=plugin.id,
+            id=generate_unique_id(plugin.domain, digest_size=16),
+            url="https://{}".format(plugin.domain),
             name=m.name_for_human,
             description=m.description_for_human,
         )
