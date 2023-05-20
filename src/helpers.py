@@ -10,9 +10,7 @@ from .types import Manifest, OpenAIPlugin
 
 PLUGINS_TABLE_NAME = "plugins"
 
-# model_name = "paraphrase-albert-small-v2"
-# model_name = "all-MiniLM-L6-v2"
-model_name = "all-mpnet-base-v2"
+model_name = "paraphrase-albert-small-v2"
 model = SentenceTransformer(model_name)
 
 
