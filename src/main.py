@@ -10,8 +10,6 @@ from .types import Plugin, Api, Manifest, ManifestNoAuth
 
 
 load_dotenv()
-app = FastAPI()
-
 
 app = FastAPI()
 
@@ -35,8 +33,9 @@ async def api_plugins() -> list[Plugin]:
 @app.get("/api/plugin/{id}", summary="Get a plugin")
 async def api_plugin(id: str) -> Plugin:
     for p in load_openai_plugins():
-        if p.id == id:
-            return p.to_plugin()
+        pp = p.to_plugin()
+        if pp.id == id:
+            return pp
     raise HTTPException(404, detail="Plugin not found")
 
 
@@ -45,14 +44,7 @@ async def api_search(query: str) -> list[Plugin]:
     df = search(query).limit(10).to_df()
     items = []
     for _, row in df.iterrows():
-        m = row["manifest"]
-        items.append(
-            Plugin(
-                id=row["id"],
-                name=m["name_for_human"],
-                description=m["description_for_human"],
-            )
-        )
+        items.append(Plugin.parse_obj(row))
     return items
 
 
