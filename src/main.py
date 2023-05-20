@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from .helpers import load_openai_plugins, search
-from .types import Plugin, Api, Manifest, ManifestNoAuth, OpenAIPlugin
+from .types import Plugin, Api, Manifest, ManifestNoAuth
 
 
 load_dotenv()
@@ -33,10 +33,10 @@ async def api_plugins() -> list[Plugin]:
 
 
 @app.get("/api/plugin/{id}", summary="Get a plugin")
-async def api_plugin(id: str) -> OpenAIPlugin:
+async def api_plugin(id: str) -> Plugin:
     for p in load_openai_plugins():
         if p.id == id:
-            return p
+            return p.to_plugin()
     raise HTTPException(404, detail="Plugin not found")
 
 
