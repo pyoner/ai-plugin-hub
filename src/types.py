@@ -87,6 +87,13 @@ class Plugin(BaseModel):
     url: str
     name: str
     description: str
+    logo_url: str
+    contact_email: str
+    legal_info_url: str
+
+    @property
+    def text(self) -> str:
+        return "{0.name} {0.description}".format(self)
 
     @classmethod
     def from_openai_plugin(cls, plugin: OpenAIPlugin) -> Self:
@@ -96,4 +103,7 @@ class Plugin(BaseModel):
             url="https://{}".format(plugin.domain),
             name=m.name_for_human,
             description=m.description_for_human,
+            logo_url=m.logo_url,
+            contact_email=m.contact_email,
+            legal_info_url=m.legal_info_url,
         )
