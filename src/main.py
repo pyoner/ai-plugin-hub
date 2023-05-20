@@ -5,13 +5,11 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from .helpers import db_connect, load_openai_plugins, search
+from .helpers import load_openai_plugins, search
 from .types import Plugin, Api, Manifest, ManifestNoAuth
 
 
 load_dotenv()
-
-db = db_connect()
 
 app = FastAPI()
 
@@ -24,12 +22,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.get("/api/plugins", summary="Get a list of plugins")
-async def api_plugins() -> list[Plugin]:
-    plugins = load_openai_plugins()
-    return [p.to_plugin() for p in plugins]
 
 
 @app.get("/api/plugin/{id}", summary="Get a plugin")
