@@ -29,7 +29,7 @@ app.add_middleware(
 @app.get("/api/plugins", summary="Get a list of plugins")
 async def api_plugins() -> list[Plugin]:
     plugins = load_openai_plugins()
-    return [Plugin.from_openai_plugin(p) for p in plugins]
+    return [p.to_plugin() for p in plugins]
 
 
 @app.get("/api/plugin/{id}", summary="Get a plugin")

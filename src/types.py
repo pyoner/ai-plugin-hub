@@ -1,4 +1,4 @@
-from typing import Dict, Literal, Self
+from typing import Dict, Literal
 from pydantic import BaseModel, Field
 
 from src.helpers import generate_unique_id
@@ -81,6 +81,18 @@ class OpenAIPlugin(BaseModel):
             description=self.manifest.description_for_human,
         )
 
+    def to_plugin(self) -> "Plugin":
+        m = self.manifest
+        return Plugin(
+            id=generate_unique_id(self.domain, digest_size=16),
+            url="https://{}".format(self.domain),
+            name=m.name_for_human,
+            description=m.description_for_human,
+            logo_url=m.logo_url,
+            contact_email=m.contact_email,
+            legal_info_url=m.legal_info_url,
+        )
+
 
 class Plugin(BaseModel):
     id: str
@@ -94,16 +106,3 @@ class Plugin(BaseModel):
     @property
     def text(self) -> str:
         return "{0.name} {0.description}".format(self)
-
-    @classmethod
-    def from_openai_plugin(cls, plugin: OpenAIPlugin) -> Self:
-        m = plugin.manifest
-        return cls(
-            id=generate_unique_id(plugin.domain, digest_size=16),
-            url="https://{}".format(plugin.domain),
-            name=m.name_for_human,
-            description=m.description_for_human,
-            logo_url=m.logo_url,
-            contact_email=m.contact_email,
-            legal_info_url=m.legal_info_url,
-        )
