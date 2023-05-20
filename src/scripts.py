@@ -16,7 +16,9 @@ load_dotenv()
 
 def prepare():
     openai_plugins = load_openai_plugins()
-    df = pd.DataFrame(data=[p.to_plugin().dict() for p in openai_plugins])
+    df = pd.DataFrame(
+        data=[dict(p.to_plugin(), text=p.to_plugin().text) for p in openai_plugins]
+    )
     df = with_embeddings(
         embed_func,
         df,

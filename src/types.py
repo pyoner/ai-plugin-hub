@@ -1,8 +1,6 @@
 from typing import Dict, Literal
 from pydantic import BaseModel, Field
 
-from src.helpers import generate_unique_id
-
 
 HttpAuthorizationType = Literal["bearer", "basic"]
 
@@ -74,14 +72,9 @@ class OpenAIPlugin(BaseModel):
     manifest: Manifest
     categories: Categories
 
-    @property
-    def text(self) -> str:
-        return "{name} {description}".format(
-            name=self.manifest.name_for_human,
-            description=self.manifest.description_for_human,
-        )
-
     def to_plugin(self) -> "Plugin":
+        from .helpers import generate_unique_id
+
         m = self.manifest
         return Plugin(
             id=generate_unique_id(self.domain, digest_size=16),
