@@ -12,7 +12,6 @@ COPY poetry.lock pyproject.toml ./
 RUN poetry export -f requirements.txt -o requirements.txt
 RUN pip install -r requirements.txt
 
-COPY .env .
 COPY . .
 RUN poetry run download
 
