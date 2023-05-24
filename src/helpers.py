@@ -10,12 +10,11 @@ from .types import Manifest, OpenAIPlugin
 
 PLUGINS_TABLE_NAME = "plugins"
 
-model_name = "paraphrase-albert-small-v2"
-model = SentenceTransformer(model_name)
-
 
 # used for both training and querying
 def embed_func(batch):
+    model_name = os.environ["EMBEDDING_MODEL_NAME"]
+    model = SentenceTransformer(model_name)
     return [model.encode(sentence) for sentence in batch]
 
 
