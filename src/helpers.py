@@ -3,7 +3,7 @@ import hashlib
 import base64
 import pydantic
 import lancedb
-from typing import Optional
+
 from sentence_transformers import SentenceTransformer
 
 from .types import Manifest, OpenAIPlugin
@@ -23,16 +23,16 @@ def create_manifest_url(domain: str):
     return "https://{domain}/.well-known/ai-plugin.json".format(domain=domain)
 
 
-def load_openai_plugins(filename: Optional[str] = None) -> list[OpenAIPlugin]:
+def load_openai_plugins(filename: str | None = None) -> list[OpenAIPlugin]:
     filename = filename or os.environ["PLUGIN_FILE"]
     return pydantic.parse_file_as(list[OpenAIPlugin], filename)
 
 
-def load_manifests(filename: Optional[str] = None) -> list[Manifest]:
+def load_manifests(filename: str | None = None) -> list[Manifest]:
     return [p.manifest for p in load_openai_plugins(filename)]
 
 
-def db_connect(uri: Optional[str] = None) -> lancedb.LanceDBConnection:
+def db_connect(uri: str | None = None) -> lancedb.LanceDBConnection:
     uri = uri or os.environ["LANCE_DB"]
     return lancedb.connect(uri)
 
