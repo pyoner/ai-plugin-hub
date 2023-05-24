@@ -1,5 +1,7 @@
+import os
 import pandas as pd
 
+from sentence_transformers import SentenceTransformer
 from lancedb.embeddings import with_embeddings
 from dotenv import load_dotenv
 
@@ -12,6 +14,11 @@ from .helpers import (
 )
 
 load_dotenv()
+
+
+def download():
+    model_name = os.environ["EMBEDDING_MODEL_NAME"]
+    SentenceTransformer(model_name)
 
 
 def prepare():
