@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Askar Yusupov <devex.soft@gmail.com>"]
 readme = "README.md"
-packages = [{ include = "src" }]
+packages = [{ include = "projects", from = "src" }]
 
 [tool.poetry.scripts]
 download = "src.scripts:download"
