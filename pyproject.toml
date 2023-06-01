@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "plugin-hub-ai"
+version = "0.1.0"
+description = ""
+authors = ["Askar Yusupov <devex.soft@gmail.com>"]
+readme = "README.md"
+packages = []
+
+[tool.poetry.group.main.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.project-api.dependencies]
+project-api = { path = "projects/api", develop = true }
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
