@@ -9,8 +9,8 @@ packages = []
 [tool.poetry.group.main.dependencies]
 python = "^3.11"
 
-[tool.poetry.group.project-api.dependencies]
-project-api = { path = "projects/api", develop = true }
+[tool.poetry.group.projects-api.dependencies]
+projects-api = { path = "projects/api", develop = true }
 
 
 [build-system]
