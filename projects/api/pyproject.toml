@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "plugin-hub-ai"
+name = "api"
 version = "0.1.0"
 description = ""
 authors = ["Askar Yusupov <devex.soft@gmail.com>"]
