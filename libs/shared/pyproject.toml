@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "libs-shared"
+version = "0.1.0"
+description = ""
+authors = ["Askar Yusupov <devex.soft@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "libs", from = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
