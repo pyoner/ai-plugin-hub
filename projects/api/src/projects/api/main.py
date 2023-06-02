@@ -5,8 +5,8 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from .helpers import load_openai_plugins, search
-from .types import Plugin, Api, Manifest, ManifestNoAuth
+from libs.shared.helpers import load_openai_plugins, search
+from libs.shared.types import Plugin, Api, Manifest, ManifestNoAuth
 
 
 load_dotenv()
