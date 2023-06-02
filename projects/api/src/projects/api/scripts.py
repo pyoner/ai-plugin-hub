@@ -5,7 +5,7 @@ from sentence_transformers import SentenceTransformer
 from lancedb.embeddings import with_embeddings
 from dotenv import load_dotenv
 
-from .helpers import (
+from libs.shared.helpers import (
     db_connect,
     embed_func,
     load_openai_plugins,
