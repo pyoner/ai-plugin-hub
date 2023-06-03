@@ -1,3 +1,4 @@
+from pathlib import Path
 from urllib.parse import urljoin
 from dotenv import load_dotenv
 
@@ -64,4 +65,5 @@ async def ai_plugin(request: Request) -> Manifest:
 
 
 # mount root at the end of code
-app.mount("/", StaticFiles(directory="static"), name="static")
+static_dir = Path(__file__).parents[3] / "static"
+app.mount("/", StaticFiles(directory=static_dir), name="static")
