@@ -176,3 +176,6 @@ pyrightconfig.json
 .vscode/
 .git/
 fly.toml
+
+# data
+data/
