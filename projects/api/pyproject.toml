@@ -7,9 +7,9 @@ readme = "README.md"
 packages = [{ include = "projects", from = "src" }]
 
 [tool.poetry.scripts]
-download = "src.scripts:download"
-prepare = "src.scripts:prepare"
-find = "src.scripts:find"
+download = "projects.api.scripts:download"
+prepare = "projects.api.scripts:prepare"
+find = "projects.api.scripts:find"
 
 [tool.poetry.dependencies]
 python = "^3.11"

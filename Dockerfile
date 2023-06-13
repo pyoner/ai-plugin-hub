@@ -8,6 +8,7 @@ COPY . .
 # projects api
 COPY poetry.toml projects/api
 RUN --mount=type=cache,target=/root/.cache poetry install -C projects/api
+RUN cd projects/api && poetry run download
 
 
 

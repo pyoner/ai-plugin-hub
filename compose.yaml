@@ -1,0 +1,10 @@
+services:
+  api:
+    build:
+      context: .
+      target: projects-api
+    ports:
+      - 8000:8000
+    volumes:
+      - ./data:./projects/api/data
+
