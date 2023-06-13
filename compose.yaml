@@ -6,5 +6,5 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - ./data:./projects/api/data
+      - ./data:/projects/api/data
 
