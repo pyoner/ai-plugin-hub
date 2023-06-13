@@ -7,7 +7,8 @@ COPY . .
 
 # projects api
 COPY poetry.toml projects/api
-RUN --mount=type=cache,target=/root/.cache poetry install -C projects/api
+RUN --mount=type=cache,target=/root/.cache \
+  cd projects/api && poetry install && poetry run download
 
 
 
@@ -23,7 +24,6 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 
 COPY --from=builder /builder/projects/api .
-RUN python -c "from src.projects.api.scripts import download; download()"
 
 EXPOSE 8000
 CMD ["python", "-m", "uvicorn", "src.projects.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
